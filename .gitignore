@@ -1,0 +1,55 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Môi trường ─────────────────────────────────────────────────────────────────
+.env
+.venv/
+venv/
+env/
+
+# ── Jupyter ────────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── Data — không commit raw data lên git ──────────────────────────────────────
+data/raw/
+data/processed/
+
+# ── Model checkpoints (thường rất lớn) ────────────────────────────────────────
+results/checkpoints/
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# ── HuggingFace cache ──────────────────────────────────────────────────────────
+~/.cache/huggingface/
+
+# ── Ray ────────────────────────────────────────────────────────────────────────
+/tmp/ray/
+ray_results/
+
+# ── Kết quả (giữ metrics JSON và figures, không giữ checkpoints) ──────────────
+# results/metrics/  ← GIỮ lại để track kết quả
+# results/figures/  ← GIỮ lại để dùng trong báo cáo
+results/checkpoints/
+
+# ── IDE ────────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/

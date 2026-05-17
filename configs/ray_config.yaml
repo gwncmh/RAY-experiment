@@ -1,0 +1,26 @@
+# configs/ray_config.yaml
+# Hyperparameters và settings cho Ray experiment
+# Thay đổi ở đây, không cần sửa code
+
+# Model
+model: "bert-base-uncased"
+num_labels: 4
+max_length: 128
+
+# Training
+batch_size: 32
+eval_batch_size: 64
+lr: 2.0e-5
+weight_decay: 0.01
+epochs: 3
+
+# Ray
+num_workers: 2        # tăng lên nếu có nhiều CPU/GPU
+use_gpu: false        # đặt true nếu có GPU
+
+# Data
+data_cache: null      # null = dùng ~/.cache/huggingface
+
+# Output
+results_dir: "results"
+framework: "ray"

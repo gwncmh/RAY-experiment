@@ -1,0 +1,19 @@
+# configs/spark_config.yaml
+# Settings cho Spark baseline experiment
+
+# TF-IDF
+num_features: 65536     # số features HashingTF
+max_iter: 100           # LogisticRegression iterations
+reg_param: 0.01         # L2 regularization
+
+# Spark
+driver_memory: "4g"
+executor_memory: "4g"
+
+# Benchmark
+num_runs: 3
+
+# Data
+data_cache: null
+results_dir: "results"
+framework: "Spark"

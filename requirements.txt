@@ -1,0 +1,25 @@
+# requirements.txt
+
+# Ray
+ray[data,train]==2.10.0
+
+# Deep learning
+torch>=2.1.0
+transformers>=4.38.0
+
+# Dataset
+datasets>=2.18.0
+
+# Evaluation
+scikit-learn>=1.4.0
+numpy>=1.26.0
+
+# Config & utils
+pyyaml>=6.0
+pandas>=2.1.0
+pyarrow>=14.0.0
+
+# Notebook (optional)
+jupyter
+matplotlib
+seaborn
