@@ -1,0 +1,21 @@
+{
+  "dataset": "AG News",
+  "n_train": 120000,
+  "n_test": 7600,
+  "n_classes": 4,
+  "class_names": [
+    "World",
+    "Sports",
+    "Business",
+    "Sci/Tech"
+  ],
+  "is_balanced": true,
+  "train_samples_per_class": {
+    "0": 0.25,
+    "1": 0.25,
+    "2": 0.25,
+    "3": 0.25
+  },
+  "median_word_count": 37.0,
+  "pct_truncated_128": 0.9
+}

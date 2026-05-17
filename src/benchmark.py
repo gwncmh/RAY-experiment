@@ -44,7 +44,11 @@ def benchmark_etl(
     """
     logger.info(f"Benchmarking ETL — warmup={n_warmup}, runs={n_runs}")
 
-    # Warmup — Ray có lazy execution, cần trigger một lần trước
+    # Materialize trước để các lần đo sau không re-tokenize
+    logger.info("Materializing dataset (tránh lazy re-execution khi benchmark)...")
+    ds = ds.materialize()
+
+    # Warmup
     for _ in range(n_warmup):
         ds.count()
 

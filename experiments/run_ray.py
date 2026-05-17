@@ -28,6 +28,8 @@ from src import (
 )
 from src.model import load_checkpoint
 from src.utils import get_logger
+from src.benchmark import benchmark_etl
+from src.utils import save_metrics
 
 logger = get_logger("run_ray")
 
@@ -79,11 +81,13 @@ def main():
     logger.info("=" * 50)
     train_ds, test_ds = build_datasets(cfg)
 
-    # ── Step 2: Benchmark ETL ──
+    # ── Step 2: Benchmark ETL (chỉ đo throughput ETL, chưa merge train metrics) ──
     logger.info("=" * 50)
     logger.info("STEP 2 — Benchmark ETL throughput")
     logger.info("=" * 50)
-    bench = run_benchmark(train_ds, cfg, results_dir=cfg["results_dir"])
+    etl_stats = benchmark_etl(train_ds)
+    etl_stats["framework"] = "Ray"
+    bench = etl_stats  # dùng tạm, sẽ update sau khi train xong
     logger.info(f"ETL throughput: {bench['throughput_mean']:.0f} samples/sec")
 
     # ── Step 3: Train (nếu không skip) ──
@@ -93,6 +97,14 @@ def main():
         logger.info("=" * 50)
         train_metrics = run_training(train_ds, cfg, results_dir=cfg["results_dir"])
         logger.info(f"Training complete: {train_metrics}")
+    
+        # Merge train metrics vào benchmark SAU KHI train xong
+        bench["total_train_time"] = train_metrics.get("total_train_time", 0)
+        bench["train_throughput"] = train_metrics.get("throughput", 0)
+        bench["num_workers"]      = train_metrics.get("num_workers", cfg.get("num_workers", 1))
+        bench["final_train_acc"]  = train_metrics.get("train_acc", 0)
+        bench_path = os.path.join(cfg["results_dir"], "metrics", "benchmark_ray.json")
+        save_metrics(bench, bench_path)
     else:
         logger.info("STEP 3 — Skipped (--skip-train)")
 
@@ -101,9 +113,26 @@ def main():
     logger.info("STEP 4 — Evaluation on test set")
     logger.info("=" * 50)
 
+    # Load checkpoint từ Ray Train result (nếu vừa train xong)
     model = build_model(cfg["model"], cfg["num_labels"])
-
-    if args.checkpoint:
+    if not args.skip_train and 'train_metrics' in dir():
+        # Ray Train lưu checkpoint vào thư mục ray_results/
+        # Tìm checkpoint mới nhất
+        import glob
+        ckpt_dirs = sorted(
+            glob.glob("ray_results/ray_ag_news/**/checkpoint_*/", recursive=True)
+        )
+        if ckpt_dirs:
+            latest_ckpt = ckpt_dirs[-1]
+            logger.info(f"Loading Ray checkpoint: {latest_ckpt}")
+            model = load_checkpoint(model, os.path.join(latest_ckpt, "model.pt"))
+        else:
+            logger.warning(
+                "Không tìm thấy checkpoint Ray Train. "
+                "Evaluate sẽ dùng pretrained weights (chưa fine-tune). "
+                "Thêm torch.save() vào _train_loop để lưu model.pt."
+            )
+    elif args.checkpoint:
         model = load_checkpoint(model, args.checkpoint)
         logger.info(f"Loaded checkpoint: {args.checkpoint}")
 

@@ -101,8 +101,17 @@ def _train_loop(config: dict) -> None:
             "epoch_time":  elapsed,
         }
 
-        # Ray Train report — tổng hợp từ tất cả workers
-        train.report(metrics)
+        # Lưu model checkpoint để load_checkpoint() dùng được
+        import os
+        ckpt_dir = train.get_context().get_local_rank()  # 0 = main worker
+        if ckpt_dir == 0:
+            os.makedirs("checkpoint_tmp", exist_ok=True)
+            torch.save(model.module.state_dict()
+                       if hasattr(model, "module") else model.state_dict(),
+                       "checkpoint_tmp/model.pt")
+            train.report(metrics, checkpoint=train.Checkpoint.from_directory("checkpoint_tmp"))
+        else:
+            train.report(metrics)
 
 
 # ── Public API ─────────────────────────────────────────────────────────────────

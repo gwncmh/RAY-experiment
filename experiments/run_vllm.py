@@ -118,7 +118,7 @@ def run_vllm_inference(
     sampling_params = SamplingParams(
         temperature=0.0,   # greedy — deterministic
         max_tokens=cfg.get("max_new_tokens", 10),
-        stop=["\n", "Category:"],
+        stop=["\n"],
     )
 
     logger.info(f"Running inference on {len(prompts)} prompts...")
