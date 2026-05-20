@@ -43,8 +43,10 @@ def _make_tokenize_fn(model_name: str, max_length: int):
     """
     def tokenize_batch(batch: dict) -> dict:
         tok = _get_tokenizer(model_name)
+        # FIX: convert sang list[str] vì Ray Data 2.31+ truyền numpy array
+        texts = batch["text"].tolist() if hasattr(batch["text"], "tolist") else list(batch["text"])
         encoded = tok(
-            batch["text"],
+            texts,
             padding="max_length",
             truncation=True,
             max_length=max_length,
@@ -55,7 +57,6 @@ def _make_tokenize_fn(model_name: str, max_length: int):
             "attention_mask": encoded["attention_mask"],
             "label":          batch["label"],
         }
-    return tokenize_batch
 
 
 # ── Public API ─────────────────────────────────────────────────────────────────
