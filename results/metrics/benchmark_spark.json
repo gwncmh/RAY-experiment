@@ -1,0 +1,12 @@
+{
+  "framework": "Spark",
+  "n_samples": 120000,
+  "throughput_mean": 172397.4905237685,
+  "throughput_median": 171997.10343128812,
+  "throughput_std": 14688.101810931777,
+  "latency_ms_mean": 0.005828725124999639,
+  "n_runs": 3,
+  "total_train_time": 40.90605700800006,
+  "train_throughput": 2933.550891412766,
+  "final_train_acc": 0.8876315789473684
+}

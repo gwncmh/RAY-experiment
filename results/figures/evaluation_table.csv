@@ -1,0 +1,4 @@
+Framework,ETL (samples/s),Train time (s),Workers,Accuracy,F1 Macro
+Ray,27467709314,4122.9,2,0.9450,0.9450
+Spark,172397,40.9,-,0.8876,0.8877
+vLLM,2300,0.0,-,0.8910,0.8870

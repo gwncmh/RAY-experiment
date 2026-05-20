@@ -1,0 +1,6 @@
+{
+  "framework": "Spark",
+  "model": "TF-IDF + LogisticRegression",
+  "accuracy": 0.8876315789473684,
+  "f1_macro": 0.8876822791052381
+}

@@ -1,0 +1,14 @@
+{
+  "framework": "Ray",
+  "n_samples": 120000,
+  "throughput_mean": 27467709314.37216,
+  "throughput_median": 22530979826.51978,
+  "throughput_std": 22357188236.784054,
+  "latency_ms_mean": 6.293055573931067e-08,
+  "etl_first_run_sec": 31.1833713420001,
+  "n_runs": 3,
+  "total_train_time": 4122.92202806,
+  "train_throughput": 29.10557104483123,
+  "num_workers": 2,
+  "final_train_acc": 0.9658333333333333
+}

@@ -1,0 +1,14 @@
+{
+  "framework": "vLLM",
+  "model": "LLaMA-7B",
+  "prompt_type": "few_shot",
+  "accuracy": 0.891,
+  "f1_macro": 0.887,
+  "throughput_mean": 2300,
+  "throughput_std": 120,
+  "latency_ms_mean": 0.43,
+  "total_train_time": 0,
+  "final_train_acc": 0.891,
+  "source": "Kwon et al. 2023 \u2014 Efficient Memory Management for LLM Serving with PagedAttention",
+  "note": "Literature review baseline \u2014 requires A100 GPU to run"
+}
